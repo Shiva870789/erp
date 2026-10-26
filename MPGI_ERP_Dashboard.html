@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MPGI ERP | Maharana Pratap Group of Institutions, Kanpur</title>
+  <style>
+    :root {
+      --bg: #030712;
+      --card-bg: #0f172a;
+      --card-border: #1e293b;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --rose: #ef4444;
+      --purple: #8b5cf6;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { background-color: var(--bg); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+
+    /* Header */
+    header { height: 64px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--card-border); display: flex; align-items: center; justify-content: space-between; padding: 0 24px; position: sticky; top: 0; z-index: 40; }
+    .logo-container { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+    .crest { width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, #1d4ed8, #0f172a); border: 1px solid rgba(59, 130, 246, 0.4); display: flex; align-items: center; justify-content: center; font-weight: 900; color: #fbbf24; font-size: 16px; box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3); }
+    .logo-text h1 { font-size: 16px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; }
+    .logo-text h1 span { color: #60a5fa; font-size: 11px; padding: 2px 6px; background: rgba(59, 130, 246, 0.15); border-radius: 4px; margin-left: 6px; border: 1px solid rgba(59, 130, 246, 0.3); }
+    .logo-text p { font-size: 10px; color: var(--text-muted); margin-top: 3px; }
+    
+    .header-actions { display: flex; align-items: center; gap: 12px; }
+    .role-badge { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; border: 1px solid; display: inline-flex; align-items: center; gap: 6px; }
+    .role-STUDENT { background: rgba(37, 99, 235, 0.15); color: #60a5fa; border-color: rgba(37, 99, 235, 0.4); }
+    .role-FACULTY { background: rgba(16, 185, 129, 0.15); color: #34d399; border-color: rgba(16, 185, 129, 0.4); }
+    .role-HOD { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border-color: rgba(245, 158, 11, 0.4); }
+    .role-DIRECTOR { background: rgba(139, 92, 246, 0.15); color: #c084fc; border-color: rgba(139, 92, 246, 0.4); }
+
+    .role-selector-btn { background: #1e293b; color: var(--text-main); border: 1px solid #334155; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+    .role-selector-btn:hover { background: #334155; }
+    .signout-btn { background: #1e293b; color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .signout-btn:hover { background: rgba(239, 68, 68, 0.15); }
+
+    /* Main Container */
+    main { flex: 1; padding: 24px; max-width: 1280px; margin: 0 auto; width: 100%; }
+
+    /* Cards & Layout */
+    .banner { padding: 24px; border-radius: 20px; background: linear-gradient(135deg, #0f172a, #1e1b4b); border: 1px solid rgba(59, 130, 246, 0.3); display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); flex-wrap: wrap; gap: 16px; }
+    .user-info { display: flex; align-items: center; gap: 16px; }
+    .avatar { width: 64px; height: 64px; border-radius: 16px; object-fit: cover; border: 2px solid #3b82f6; }
+    .user-details h2 { font-size: 20px; font-weight: 800; }
+    .user-details p { font-size: 12px; color: #93c5fd; margin-top: 2px; }
+    .user-meta { display: flex; gap: 12px; font-size: 11px; color: var(--text-muted); margin-top: 6px; font-family: monospace; }
+
+    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .stat-card { background: var(--card-bg); border: 1px solid var(--card-border); padding: 20px; border-radius: 16px; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s; }
+    .stat-card:hover { transform: translateY(-2px); border-color: rgba(59, 130, 246, 0.4); }
+    .stat-header { display: flex; justify-content: space-between; align-items: flex-start; }
+    .stat-title { font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--text-muted); }
+    .stat-val { font-size: 26px; font-weight: 900; margin: 8px 0; color: #fff; }
+    .stat-sub { font-size: 11px; color: var(--text-muted); }
+    .stat-badge { font-size: 11px; font-weight: 600; padding: 4px 8px; border-radius: 6px; }
+
+    .section-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 20px; margin-bottom: 24px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+    .section-head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; border-bottom: 1px solid var(--card-border); margin-bottom: 16px; }
+    .section-head h3 { font-size: 15px; font-weight: 800; }
+    .section-head p { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: left; }
+    th { padding: 12px 14px; text-transform: uppercase; font-size: 10px; color: var(--text-muted); font-weight: 700; border-bottom: 1px solid var(--card-border); }
+    td { padding: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .progress-bar-bg { width: 100%; height: 6px; background: #1e293b; border-radius: 99px; overflow: hidden; margin-top: 4px; }
+    .progress-bar-fill { height: 100%; border-radius: 99px; }
+
+    /* Buttons */
+    .btn { padding: 8px 16px; border-radius: 10px; font-size: 12px; font-weight: 700; cursor: pointer; border: none; transition: background 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-success { background: #059669; color: #fff; }
+    .btn-success:hover { background: #047857; }
+    .btn-amber { background: var(--amber); color: #020617; font-weight: 800; }
+    .btn-secondary { background: #1e293b; color: var(--text-main); border: 1px solid #334155; }
+    .btn-secondary:hover { background: #334155; }
+
+    /* Login Screen */
+    .login-wrapper { max-width: 900px; margin: 40px auto; text-align: center; }
+    .role-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin: 24px 0; }
+    .role-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 20px; text-align: left; cursor: pointer; transition: all 0.2s; }
+    .role-card:hover, .role-card.active { border-color: var(--primary); background: rgba(37, 99, 235, 0.1); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37, 99, 235, 0.2); }
+    .role-card h4 { font-size: 14px; font-weight: 800; margin: 8px 0 4px; }
+    .role-card p { font-size: 11px; color: var(--text-muted); }
+
+    .login-box { max-width: 440px; margin: 0 auto; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 28px; text-align: left; box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; }
+    .form-control { width: 100%; padding: 10px 14px; border-radius: 10px; background: #020617; border: 1px solid #334155; color: #fff; font-size: 12px; }
+    .form-control:focus { outline: none; border-color: var(--primary); }
+
+    /* Modal */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 50; padding: 16px; }
+    .modal-content { background: #0f172a; border: 1px solid #334155; border-radius: 20px; width: 100%; max-width: 560px; padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+
+    /* Toast */
+    .toast-box { position: fixed; bottom: 20px; right: 20px; z-index: 99; display: flex; flex-direction: column; gap: 8px; }
+    .toast { background: #0f172a; border: 1px solid #3b82f6; color: #fff; padding: 12px 18px; border-radius: 12px; font-size: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); animation: slideIn 0.3s forwards; }
+    @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo-container" onclick="showDashboard()">
+      <div class="crest">M</div>
+      <div class="logo-text">
+        <h1>MPGI <span>ERP</span></h1>
+        <p>Maharana Pratap Group of Institutions, Kanpur • AKTU 045</p>
+      </div>
+    </div>
+
+    <div class="header-actions" id="headerActions">
+      <!-- Injected dynamically -->
+    </div>
+  </header>
+
+  <!-- MAIN APP CONTAINER -->
+  <main id="appContainer">
+    <!-- Login or Dashboard View injected dynamically -->
+  </main>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-box" id="toastBox"></div>
+
+  <!-- APPLICATION SCRIPT -->
+  <script>
+    // System Data Store
+    const ROLES_DATA = {
+      STUDENT: {
+        id: 'MPGI/2022/CS/1042',
+        name: 'Aarav Verma',
+        role: 'STUDENT',
+        email: 'aarav.verma@mpgi.edu.in',
+        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
+        sub: 'B.Tech - Computer Science & Engineering (Sem 6, Sec A)',
+        cgpa: '8.65',
+        sgpa: '8.82',
+        attendance: '85.0%',
+        dueFee: 25000
+      },
+      FACULTY: {
+        id: 'MPGI-FAC-CS-019',
+        name: 'Dr. Rajesh Sharma',
+        role: 'FACULTY',
+        email: 'rajesh.sharma@mpgi.edu.in',
+        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
+        sub: 'Associate Professor & Mentor • Department of CSE',
+        cabin: 'Block B - Room 208',
+        assigned: 'Compiler Design, Cloud Computing'
+      },
+      HOD: {
+        id: 'MPGI-HOD-CSE-01',
+        name: 'Dr. Arvind Trivedi',
+        role: 'HOD',
+        email: 'hod.cse@mpgi.edu.in',
+        avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150',
+        sub: 'Professor & Head of Department • CSE (480 Students, 28 Faculty)',
+        scope: 'Computer Science & Engineering Scope'
+      },
+      DIRECTOR: {
+        id: 'MPGI-DIR-001',
+        name: 'Prof. (Dr.) V. K. Srivastava',
+        role: 'DIRECTOR',
+        email: 'director@mpgi.edu.in',
+        avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150',
+        sub: 'Director General • MPGI Group of Institutions (3,850 Students, 242 Faculty)',
+        scope: 'Campus-wide Executive Authority'
+      }
+    };
+
+    let currentUser = ROLES_DATA.STUDENT; // Default loaded user for instant access
+    let selectedLoginRole = 'STUDENT';
+
+    function showToast(title, msg) {
+      const box = document.getElementById('toastBox');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = `<strong>${title}</strong><div style="font-size:11px;color:#cbd5e1;margin-top:2px;">${msg}</div>`;
+      box.appendChild(toast);
+      setTimeout(() => { toast.remove(); }, 3500);
+    }
+
+    function switchRole(roleKey) {
+      currentUser = ROLES_DATA[roleKey];
+      showToast('Portal Switched', `Logged into ${roleKey} Portal.`);
+      render();
+    }
+
+    function signOut() {
+      currentUser = null;
+      showToast('Signed Out', 'You have been securely signed out.');
+      render();
+    }
+
+    function selectLoginRole(roleKey) {
+      selectedLoginRole = roleKey;
+      renderLogin();
+    }
+
+    function executeLogin() {
+      currentUser = ROLES_DATA[selectedLoginRole];
+      showToast('Login Successful', `Welcome to MPGI ERP ${selectedLoginRole} Portal.`);
+      render();
+    }
+
+    // --- RENDER DISPATCHER ---
+    function render() {
+      const headerActions = document.getElementById('headerActions');
+      const container = document.getElementById('appContainer');
+
+      if (!currentUser) {
+        headerActions.innerHTML = `<span style="font-size:11px;color:#10b981;">● System Operational</span>`;
+        renderLogin();
+        return;
+      }
+
+      // Render Header Actions
+      headerActions.innerHTML = `
+        <div style="display:flex;align-items:center;gap:10px;">
+          <select onchange="switchRole(this.value)" class="role-selector-btn">
+            <option value="STUDENT" ${currentUser.role === 'STUDENT' ? 'selected' : ''}>🎓 Student</option>
+            <option value="FACULTY" ${currentUser.role === 'FACULTY' ? 'selected' : ''}>👨‍🏫 Faculty</option>
+            <option value="HOD" ${currentUser.role === 'HOD' ? 'selected' : ''}>🏢 HOD (CSE)</option>
+            <option value="DIRECTOR" ${currentUser.role === 'DIRECTOR' ? 'selected' : ''}>🏛️ Director General</option>
+          </select>
+          <div class="role-badge role-${currentUser.role}">${currentUser.role} PORTAL</div>
+          <button class="signout-btn" onclick="signOut()">Sign Out</button>
+        </div>
+      `;
+
+      if (currentUser.role === 'STUDENT') renderStudent(container);
+      else if (currentUser.role === 'FACULTY') renderFaculty(container);
+      else if (currentUser.role === 'HOD') renderHod(container);
+      else if (currentUser.role === 'DIRECTOR') renderDirector(container);
+    }
+
+    // --- 1. LOGIN VIEW ---
+    function renderLogin() {
+      const container = document.getElementById('appContainer');
+      const cred = ROLES_DATA[selectedLoginRole];
+
+      container.innerHTML = `
+        <div class="login-wrapper">
+          <div style="display:inline-block;padding:4px 12px;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);border-radius:20px;font-size:11px;color:#60a5fa;margin-bottom:12px;">
+            🏛️ Maharana Pratap Group of Institutions, Kanpur
+          </div>
+          <h2 style="font-size:28px;font-weight:900;">Integrated University Management System</h2>
+          <p style="font-size:13px;color:var(--text-muted);margin-top:6px;">Select an official role below to test the dedicated dashboard portal.</p>
+
+          <div class="role-grid">
+            <div class="role-card ${selectedLoginRole === 'STUDENT' ? 'active' : ''}" onclick="selectLoginRole('STUDENT')">
+              <div style="font-size:24px;">🎓</div>
+              <h4>Student Portal</h4>
+              <p>Attendance, internal marks, fees & admit card.</p>
+            </div>
+            <div class="role-card ${selectedLoginRole === 'FACULTY' ? 'active' : ''}" onclick="selectLoginRole('FACULTY')">
+              <div style="font-size:24px;">👨‍🏫</div>
+              <h4>Faculty Portal</h4>
+              <p>Roll-call sheet, marks entry & grading.</p>
+            </div>
+            <div class="role-card ${selectedLoginRole === 'HOD' ? 'active' : ''}" onclick="selectLoginRole('HOD')">
+              <div style="font-size:24px;">🏢</div>
+              <h4>HOD Portal</h4>
+              <p>CSE department workload & defaulters.</p>
+            </div>
+            <div class="role-card ${selectedLoginRole === 'DIRECTOR' ? 'active' : ''}" onclick="selectLoginRole('DIRECTOR')">
+              <div style="font-size:24px;">🏛️</div>
+              <h4>Director General</h4>
+              <p>Campus KPIs, audit logs & NAAC export.</p>
+            </div>
+          </div>
+
+          <div class="login-box">
+            <h3 style="font-size:16px;font-weight:800;margin-bottom:4px;">Sign In as ${selectedLoginRole}</h3>
+            <p style="font-size:11px;color:var(--text-muted);margin-bottom:18px;">Account identifier and password for demo evaluation.</p>
+
+            <div class="form-group">
+              <label>Official ID</label>
+              <input type="text" class="form-control" value="${cred.id}" readonly style="font-family:monospace;font-weight:bold;color:#60a5fa;">
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" class="form-control" value="password123" readonly>
+            </div>
+
+            <button class="btn btn-primary" style="width:100%;justify-content:center;padding:12px;font-size:13px;" onclick="executeLogin()">
+              Sign In to ${selectedLoginRole} Portal →
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    // --- 2. STUDENT DASHBOARD VIEW ---
+    function renderStudent(container) {
+      container.innerHTML = `
+        <div class="banner">
+          <div class="user-info">
+            <img src="${currentUser.avatar}" class="avatar">
+            <div class="user-details">
+              <h2>Welcome, ${currentUser.name}</h2>
+              <p>${currentUser.sub}</p>
+              <div class="user-meta">
+                <span>Enrollment: <strong>${currentUser.id}</strong></span>
+                <span>AKTU Roll: <strong>2100450100042</strong></span>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;">
+            <button class="btn btn-primary" onclick="openStudentLeave()">+ Apply Leave</button>
+            <button class="btn btn-amber" onclick="payFee()">Pay Fee Due (₹${currentUser.dueFee.toLocaleString('en-IN')})</button>
+          </div>
+        </div>
+
+        <div class="grid-4">
+          <div class="stat-card">
+            <div class="stat-header"><span class="stat-title">Overall Attendance</span><span>📅</span></div>
+            <div class="stat-val" style="color:#10b981;">${currentUser.attendance}</div>
+            <div class="stat-sub">Safe Zone (173 / 205 Lectures)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header"><span class="stat-title">Academic Standing</span><span>🎓</span></div>
+            <div class="stat-val" style="color:#60a5fa;">${currentUser.cgpa}</div>
+            <div class="stat-sub">Rank 4 in CSE • 6th Sem SGPA: ${currentUser.sgpa}</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header"><span class="stat-title">Outstanding Fee</span><span>💳</span></div>
+            <div class="stat-val" style="color:#fbbf24;">₹${currentUser.dueFee.toLocaleString('en-IN')}</div>
+            <div class="stat-sub">Due 15 Nov • ₹1,00,000 Cleared</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header"><span class="stat-title">Pending Coursework</span><span>📚</span></div>
+            <div class="stat-val" style="color:#c084fc;">2 Tasks</div>
+            <div class="stat-sub">LALR Parser Lab & AWS Microservice</div>
+          </div>
+        </div>
+
+        <!-- Subject Attendance Table -->
+        <div class="section-card">
+          <div class="section-head">
+            <div>
+              <h3>Subject-Wise Attendance Breakdown</h3>
+              <p>75% attendance mandatory for AKTU university exam hall ticket.</p>
+            </div>
+            <span class="stat-badge" style="background:rgba(16,185,129,0.15);color:#34d399;border:1px solid rgba(16,185,129,0.3);">Exam Eligible</span>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Subject Name</th>
+                <th>Faculty Incharge</th>
+                <th style="text-align:center;">Attended / Total</th>
+                <th>Percentage</th>
+                <th style="text-align:center;">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-family:monospace;font-weight:bold;color:#60a5fa;">KCS-601</td>
+                <td style="font-weight:600;">Compiler Design</td>
+                <td style="color:#94a3b8;">Dr. Rajesh Sharma</td>
+                <td style="text-align:center;">37 / 42</td>
+                <td>
+                  <div style="font-weight:bold;color:#10b981;">88.1%</div>
+                  <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:88.1%;background:#10b981;"></div></div>
+                </td>
+                <td style="text-align:center;"><span class="stat-badge" style="background:rgba(16,185,129,0.15);color:#34d399;">Safe</span></td>
+              </tr>
+              <tr>
+                <td style="font-family:monospace;font-weight:bold;color:#60a5fa;">KCS-602</td>
+                <td style="font-weight:600;">Cloud Computing Architecture</td>
+                <td style="color:#94a3b8;">Dr. Rajesh Sharma</td>
+                <td style="text-align:center;">35 / 38</td>
+                <td>
+                  <div style="font-weight:bold;color:#10b981;">92.1%</div>
+                  <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:92.1%;background:#10b981;"></div></div>
+                </td>
+                <td style="text-align:center;"><span class="stat-badge" style="background:rgba(16,185,129,0.15);color:#34d399;">Safe</span></td>
+              </tr>
+              <tr>
+                <td style="font-family:monospace;font-weight:bold;color:#60a5fa;">KIT-601</td>
+                <td style="font-weight:600;">Web Technologies & Frameworks</td>
+                <td style="color:#94a3b8;">Er. Amit Sachan</td>
+                <td style="text-align:center;">25 / 35</td>
+                <td>
+                  <div style="font-weight:bold;color:#ef4444;">71.4%</div>
+                  <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:71.4%;background:#ef4444;"></div></div>
+                </td>
+                <td style="text-align:center;"><span class="stat-badge" style="background:rgba(239,68,68,0.15);color:#f87171;">Defaulter (&lt;75%)</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function openStudentLeave() {
+      showToast('Leave Modal Opened', 'Submitting academic condonation request.');
+      setTimeout(() => {
+        showToast('Application Submitted', 'Sent to mentor Dr. Rajesh Sharma for review.');
+      }, 1000);
+    }
+
+    function payFee() {
+      ROLES_DATA.STUDENT.dueFee = 0;
+      showToast('Payment Successful', '₹25,000 paid online via MPGI Payment Gateway.');
+      setTimeout(() => {
+        showToast('Receipt Ready', 'Official receipt MPGI/REC/2026/9021 issued with stamp.');
+        render();
+      }, 500);
+    }
+
+    // --- 3. FACULTY DASHBOARD VIEW ---
+    let facultyStudents = [
+      { roll: '1001', name: 'Aaditya Pandey', attd: 88, status: 'P' },
+      { roll: '1005', name: 'Aakanksha Dixit', attd: 92, status: 'P' },
+      { roll: '1012', name: 'Rohan Agnihotri', attd: 58, status: 'A' },
+      { roll: '1042', name: 'Aarav Verma', attd: 88, status: 'P' },
+      { roll: '1077', name: 'Shreya Shukla', attd: 66, status: 'A' }
+    ];
+
+    function renderFaculty(container) {
+      container.innerHTML = `
+        <div class="banner">
+          <div class="user-info">
+            <img src="${currentUser.avatar}" class="avatar" style="border-color:#10b981;">
+            <div class="user-details">
+              <h2>${currentUser.name}</h2>
+              <p>${currentUser.sub}</p>
+              <div class="user-meta">
+                <span>Cabin: <strong>${currentUser.cabin}</strong></span>
+                <span>Workload: <strong>16 Hours / Week</strong></span>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-success" onclick="saveRollCall()">✓ Save & Lock Roll-Call</button>
+        </div>
+
+        <div class="grid-4">
+          <div class="stat-card">
+            <div class="stat-header"><span class="stat-title">Assigned Students</span><span>👥</span></div>
+            <div class="stat-val" style="color:#60a5fa;">180</div>
+            <div class="stat-sub">3 Class Sections (CSE)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header"><span class="stat-title">Today's Lectures</span><span>⏱️</span></div>
+            <div class="stat-val" style="color:#c084fc;">3 Sessions</div>
+            <div class="stat-sub">Next: 10:05 AM in LT-302</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header"><span class="stat-title">Average Attendance</span><span>📈</span></div>
+            <div class="stat-val" style="color:#10b981;">88.4%</div>
+            <div class="stat-sub">Above University Benchmark</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header"><span class="stat-title">Pending Tasks</span><span>📁</span></div>
+            <div class="stat-val" style="color:#fbbf24;">8 Reviews</div>
+            <div class="stat-sub">LALR Parser Lab Evaluations</div>
+          </div>
+        </div>
+
+        <!-- Attendance Roll-Call Table -->
+        <div class="section-card">
+          <div class="section-head">
+            <div>
+              <h3>Daily Roll-Call Register • KCS-601 Compiler Design</h3>
+              <p>6th Semester Section A • Today's Topic: Bottom-Up Syntax Analysis</p>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <button class="btn btn-secondary" onclick="markAllP()">Mark All P</button>
+              <button class="btn btn-secondary" onclick="markAllA()">Mark All A</button>
+            </div>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Roll No</th>
+                <th>Student Name</th>
+                <th style="text-align:center;">Cumulative %</th>
+                <th style="text-align:center;">Attendance Mark</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${facultyStudents.map((s, idx) => `
+                <tr>
+                  <td style="font-family:monospace;font-weight:bold;color:#60a5fa;">MPGI/CS/${s.roll}</td>
+                  <td style="font-weight:600;">${s.name}</td>
+                  <td style="text-align:center;font-weight:bold;color:${s.attd < 75 ? '#ef4444' : '#10b981'};">${s.attd}%</td>
+                  <td style="text-align:center;">
+                    <div style="display:inline-flex;gap:6px;">
+                      <button onclick="toggleP(${idx})" style="padding:4px 10px;border-radius:6px;font-weight:bold;cursor:pointer;background:${s.status === 'P' ? '#10b981' : '#1e293b'};color:${s.status === 'P' ? '#fff' : '#94a3b8'};border:none;">P</button>
+                      <button onclick="toggleA(${idx})" style="padding:4px 10px;border-radius:6px;font-weight:bold;cursor:pointer;background:${s.status === 'A' ? '#ef4444' : '#1e293b'};color:${s.status === 'A' ? '#fff' : '#94a3b8'};border:none;">A</button>
+                    </div>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function toggleP(idx) { facultyStudents[idx].status = 'P'; render(); }
+    function toggleA(idx) { facultyStudents[idx].status = 'A'; render(); }
+    function markAllP() { facultyStudents.forEach(s => s.status = 'P'); showToast('Action', 'All students marked Present.'); render(); }
+    function markAllA() { facultyStudents.forEach(s => s.status = 'A'); showToast('Action', 'All students marked Absent.'); render(); }
+    function saveRollCall() {
+      const p = facultyStudents.filter(s => s.status === 'P').length;
+      showToast('Attendance Recorded', `Saved ${p} Present, ${facultyStudents.length - p} Absent in ERP.`);
+    }
+
+    // --- 4. HOD DASHBOARD VIEW ---
+    function renderHod(container) {
+      container.innerHTML = `
+        <div class="banner">
+          <div class="user-info">
+            <img src="${currentUser.avatar}" class="avatar" style="border-color:#fbbf24;">
+            <div class="user-details">
+              <h2>${currentUser.name}</h2>
+              <p>${currentUser.sub}</p>
+              <div class="user-meta">
+                <span>Scope: <strong>Computer Science & Engineering Only</strong></span>
+              </div>
+            </div>
+          </div>
+          <span class="stat-badge" style="background:rgba(245,158,11,0.2);color:#fbbf24;font-size:12px;padding:6px 12px;">HOD Authority Active</span>
+        </div>
+
+        <div class="grid-4">
+          <div class="stat-card">
+            <div class="stat-header"><span class="stat-title">CSE Students</span><span>🎓</span></div>
+            <div class="stat-val" style="color:#60a5fa;">480</div>
+            <div class="stat-sub">4 Enrolled Batches</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header"><span class="stat-title">Dept Attendance</span><span>📅</span></div>
+            <div class="stat-val" style="color:#10b981;">84.2%</div>
+            <div class="stat-sub">University Benchmark Met</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header"><span class="stat-title">Placement Rate</span><span>💼</span></div>
+            <div class="stat-val" style="color:#c084fc;">92.4%</div>
+            <div class="stat-sub">Highest: ₹24.5 LPA</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header"><span class="stat-title">Pending Approvals</span><span>⚖️</span></div>
+            <div class="stat-val" style="color:#f87171;">2 Requests</div>
+            <div class="stat-sub">Leaves & Equipment</div>
+          </div>
+        </div>
+
+        <!-- Approvals Queue -->
+        <div class="section-card">
+          <div class="section-head">
+            <h3>Academic Approvals Queue</h3>
+            <p>Departmental condonations and requisitions requiring HOD endorsement.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div style="background:#020617;border:1px solid #1e293b;padding:16px;border-radius:12px;display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <span style="font-size:10px;font-family:monospace;background:rgba(59,130,246,0.15);color:#60a5fa;padding:2px 6px;border-radius:4px;">ATTENDANCE CONDONATION</span>
+                <h4 style="font-size:13px;font-weight:700;margin-top:4px;">Aarav Verma (2100450100042)</h4>
+                <p style="font-size:11px;color:#94a3b8;">Smart India Hackathon grand finale at IIT Roorkee (3 days leave).</p>
+              </div>
+              <div style="display:flex;gap:8px;">
+                <button class="btn btn-success" onclick="showToast('Approved', 'Authorized 3-day hackathon condonation.')">Approve</button>
+                <button class="btn btn-secondary" onclick="showToast('Rejected', 'Request rejected.')">Reject</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // --- 5. DIRECTOR DASHBOARD VIEW ---
+    function renderDirector(container) {
+      container.innerHTML = `
+        <div class="banner">
+          <div class="user-info">
+            <img src="${currentUser.avatar}" class="avatar" style="border-color:#8b5cf6;">
+            <div class="user-details">
+              <h2>${currentUser.name}</h2>
+              <p>${currentUser.sub}</p>
+              <div class="user-meta">
+                <span>Campuses: <strong>3 Campuses (Kanpur)</strong></span>
+                <span>Colleges: <strong>5 Professional Institutes</strong></span>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="showToast('Exporting', 'Downloaded NAAC SSR Dossier.')">📥 Export NAAC Dossier</button>
+        </div>
+
+        <div class="grid-4">
+          <div class="stat-card">
+            <div class="stat-header"><span class="stat-title">Campus Enrollment</span><span>🎓</span></div>
+            <div class="stat-val" style="color:#60a5fa;">3,850</div>
+            <div class="stat-sub">100% Intake Filled</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header"><span class="stat-title">Total Faculty</span><span>👨‍🏫</span></div>
+            <div class="stat-val" style="color:#c084fc;">242 Staff</div>
+            <div class="stat-sub">1:15 AICTE Ratio Compliant</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header"><span class="stat-title">Campus Attendance</span><span>📅</span></div>
+            <div class="stat-val" style="color:#10b981;">83.4%</div>
+            <div class="stat-sub">Institute-wide Average</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header"><span class="stat-title">Fee Realized</span><span>💳</span></div>
+            <div class="stat-val" style="color:#fbbf24;">₹42.8 Cr</div>
+            <div class="stat-sub">92% of Target Realized</div>
+          </div>
+        </div>
+
+        <!-- Department Comparison -->
+        <div class="section-card">
+          <div class="section-head">
+            <h3>Inter-Departmental Performance Benchmark</h3>
+            <p>Comparative analytics across Engineering, Management & Pharmacy colleges.</p>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>College / Department</th>
+                <th>Head of Department</th>
+                <th style="text-align:center;">Students</th>
+                <th style="text-align:center;">Avg Attendance</th>
+                <th style="text-align:center;">Placement Rate</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Computer Science & Engineering (CSE)</strong></td>
+                <td style="color:#94a3b8;">Dr. Arvind Trivedi</td>
+                <td style="text-align:center;">480</td>
+                <td style="text-align:center;color:#10b981;font-weight:bold;">84.2%</td>
+                <td style="text-align:center;color:#60a5fa;font-weight:bold;">92.4%</td>
+              </tr>
+              <tr>
+                <td><strong>Faculty of Management (MBA)</strong></td>
+                <td style="color:#94a3b8;">Dr. Sunita Kapoor</td>
+                <td style="text-align:center;">240</td>
+                <td style="text-align:center;color:#10b981;font-weight:bold;">88.5%</td>
+                <td style="text-align:center;color:#60a5fa;font-weight:bold;">94.0%</td>
+              </tr>
+              <tr>
+                <td><strong>College of Pharmacy (B.Pharm)</strong></td>
+                <td style="color:#94a3b8;">Dr. B. N. Yadav</td>
+                <td style="text-align:center;">380</td>
+                <td style="text-align:center;color:#10b981;font-weight:bold;">86.8%</td>
+                <td style="text-align:center;color:#60a5fa;font-weight:bold;">89.2%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    // Initialize application on load
+    render();
+  </script>
+</body>
+</html>
